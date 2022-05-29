@@ -14,7 +14,17 @@ export class DogsService {
   }
 
   create(createDogDto: CreateDogDto) {
-    return 'This action adds a new dog';
+    const newDog: Dog = new Dog();
+    newDog.adoptedAt = createDogDto.adoptedAt;
+    newDog.age = createDogDto.age;
+    newDog.breed = createDogDto.breed;
+    newDog.foundAt = createDogDto.foundAt;
+    newDog.name = createDogDto.name;
+    newDog.id = Math.max(...this.dogs.map(e => e.id)) + 1;
+
+    this.dogs.push(newDog);
+
+    return new Promise(resolve => resolve(newDog));
   }
 
   findAll() {

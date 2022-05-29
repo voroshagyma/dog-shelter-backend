@@ -1,9 +1,9 @@
-import { IsString, IsInt, IsDate, IsOptional } from 'class-validator';
+import { IsString, IsInt, IsOptional, IsISO8601 } from 'class-validator';
 
 export class CreateDogDto {
 
     @IsOptional()
-    @IsDate()
+    @IsISO8601()
     adoptedAt: Date;
 
     @IsInt()
@@ -12,7 +12,7 @@ export class CreateDogDto {
     @IsString()
     breed: string;
 
-    @IsDate()
+    @IsISO8601()
     foundAt: Date;
 
     @IsString()
