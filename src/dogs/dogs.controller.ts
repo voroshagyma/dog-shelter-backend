@@ -1,5 +1,4 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
-import { AppService } from 'src/app.service';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
