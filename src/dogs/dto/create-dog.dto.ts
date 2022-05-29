@@ -15,9 +15,6 @@ export class CreateDogDto {
     @IsDate()
     foundAt: Date;
 
-    @IsInt()
-    id: number;
-
     @IsString()
     name: string;
 }
