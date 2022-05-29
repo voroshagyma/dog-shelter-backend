@@ -34,9 +34,7 @@ export class DogsService {
   findOne(id: number) {
     const dog = this.dogs.find(e => e.id === id);
 
-    return new Promise((resolve, reject) => {
-      resolve(dog);
-    });
+    return new Promise(resolve => resolve(dog));
   }
 
   /**
@@ -69,8 +67,6 @@ export class DogsService {
       this.dogs = this.dogs.filter(e => e.id !== toRemoveId);
     }
 
-    return new Promise((resolve, reject) => {
-      resolve(toRemoveId);
-    });
+    return new Promise(resolve => resolve(toRemoveId));
   }
 }
