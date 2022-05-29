@@ -30,8 +30,14 @@ export class DogsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
-    return this.dogsService.update(+id, updateDogDto);
+  async update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
+    const updatedDog = await this.dogsService.update(+id, updateDogDto);
+
+    if (updatedDog === undefined) {
+      throw new NotFoundException();
+    }
+
+    return updatedDog;
   }
 
   @Delete(':id')

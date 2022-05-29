@@ -57,7 +57,19 @@ export class DogsService {
   }
 
   update(id: number, updateDogDto: UpdateDogDto) {
-    return `This action updates a #${id} dog`;
+
+    const dogToUpdate = this.dogs.find(e => e.id === id);
+
+    if (dogToUpdate) {
+      dogToUpdate.adoptedAt = updateDogDto.adoptedAt;
+      dogToUpdate.age = updateDogDto.age;
+      dogToUpdate.breed = updateDogDto.breed;
+      dogToUpdate.foundAt = updateDogDto.foundAt;
+      dogToUpdate.name = updateDogDto.name;
+    }
+
+    return new Promise(resolve => resolve(dogToUpdate));
+
   }
 
   remove(id: number) {
