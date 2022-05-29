@@ -22,8 +22,9 @@ export class DogsService {
   }
 
   findOne(id: number) {
+    const dog = this.dogs.find(e => e.id === id);
+
     return new Promise((resolve, reject) => {
-      const dog = this.dogs.find(e => e.id === id);
       resolve(dog);
     });
   }
@@ -52,6 +53,14 @@ export class DogsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} dog`;
+    const toRemoveId = this.dogs.find(e => e.id === id)?.id;
+
+    if (toRemoveId !== undefined) {
+      this.dogs = this.dogs.filter(e => e.id !== toRemoveId);
+    }
+
+    return new Promise((resolve, reject) => {
+      resolve(toRemoveId);
+    });
   }
 }

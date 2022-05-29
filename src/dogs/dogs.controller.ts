@@ -35,7 +35,13 @@ export class DogsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dogsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const removedId = await this.dogsService.remove(+id);
+
+    if (removedId === undefined) {
+      throw new NotFoundException();
+    }
+
+    return removedId;
   }
 }
