@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
+import { AppService } from 'src/app.service';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
@@ -6,6 +7,15 @@ import { UpdateDogDto } from './dto/update-dog.dto';
 @Controller('dogs')
 export class DogsController {
   constructor(private readonly dogsService: DogsService) { }
+
+  private throw404OrReturnValue(value: any) {
+
+    if (value === undefined) {
+      throw new NotFoundException();
+    }
+
+    return value;
+  }
 
   @Post()
   create(@Body() createDogDto: CreateDogDto) {
@@ -22,32 +32,20 @@ export class DogsController {
 
     const dog = await this.dogsService.findOne(+id);
 
-    if (dog === undefined) {
-      throw new NotFoundException();
-    }
-
-    return dog;
+    return this.throw404OrReturnValue(dog);
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
     const updatedDog = await this.dogsService.update(+id, updateDogDto);
 
-    if (updatedDog === undefined) {
-      throw new NotFoundException();
-    }
-
-    return updatedDog;
+    return this.throw404OrReturnValue(updatedDog);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const removedId = await this.dogsService.remove(+id);
 
-    if (removedId === undefined) {
-      throw new NotFoundException();
-    }
-
-    return removedId;
+    return this.throw404OrReturnValue(removedId);
   }
 }
