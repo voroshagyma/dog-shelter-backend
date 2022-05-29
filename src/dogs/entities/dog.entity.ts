@@ -5,4 +5,5 @@ export class Dog {
     foundAt: Date;
     id: number;
     name: string;
+    description: string;
 }

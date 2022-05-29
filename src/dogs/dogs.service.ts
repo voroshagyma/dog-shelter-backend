@@ -21,6 +21,7 @@ export class DogsService {
     newDog.foundAt = createDogDto.foundAt;
     newDog.name = createDogDto.name;
     newDog.id = Math.max(...this.dogs.map(e => e.id)) + 1;
+    newDog.description = createDogDto.description;
 
     this.dogs.push(newDog);
 
@@ -50,6 +51,7 @@ export class DogsService {
       dog.foundAt = faker.date.between("2017-01-01", "2022-05-01");
       dog.breed = faker.animal.dog();
       dog.id = i;
+      dog.description = faker.lorem.sentences(4);
 
       dogs.push(dog);
     }
@@ -66,6 +68,7 @@ export class DogsService {
       dogToUpdate.breed = updateDogDto.breed;
       dogToUpdate.foundAt = updateDogDto.foundAt;
       dogToUpdate.name = updateDogDto.name;
+      dogToUpdate.description = updateDogDto.description;
     }
 
     return new Promise(resolve => resolve(dogToUpdate));

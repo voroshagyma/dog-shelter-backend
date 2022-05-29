@@ -12,6 +12,9 @@ export class CreateDogDto {
     @IsString()
     breed: string;
 
+    @IsString()
+    description: string;
+
     @IsISO8601()
     foundAt: Date;
 
