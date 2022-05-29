@@ -3,13 +3,15 @@ import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
 import { Dog } from './entities/dog.entity';
 import { faker } from "@faker-js/faker";
+import { HttpService } from '@nestjs/axios';
+import { map } from 'rxjs';
 
 @Injectable()
 export class DogsService {
 
   private dogs: Dog[];
 
-  constructor() {
+  constructor(private httpService: HttpService) {
     this.initDogs();
   }
 
@@ -43,19 +45,26 @@ export class DogsService {
    */
   private initDogs() {
     const dogs: Dog[] = [];
-    for (let i = 1; i <= 100; i++) {
-      const dog: Dog = new Dog();
-      dog.name = faker.name.firstName();
-      dog.age = faker.datatype.number({ min: 0, max: 20 });
-      dog.adoptedAt = i % 3 === 0 ? faker.date.between("2017-01-01", "2022-05-01") : null;
-      dog.foundAt = faker.date.between("2017-01-01", "2022-05-01");
-      dog.breed = faker.animal.dog();
-      dog.id = i;
-      dog.description = faker.lorem.sentences(4);
 
-      dogs.push(dog);
-    }
-    this.dogs = dogs;
+    this.httpService.get<string[]>('https://random.dog/doggos').subscribe(e => {
+      const pics = e.data;
+
+      for (let i = 1; i <= 100; i++) {
+        const dog: Dog = new Dog();
+        dog.name = faker.name.firstName();
+        dog.age = faker.datatype.number({ min: 0, max: 20 });
+        dog.adoptedAt = i % 3 === 0 ? faker.date.between("2017-01-01", "2022-05-01") : null;
+        dog.foundAt = faker.date.between("2017-01-01", "2022-05-01");
+        dog.breed = faker.animal.dog();
+        dog.id = i;
+        dog.description = faker.lorem.sentences(4);
+        dog.picture = `https://random.dog/${pics[i]}`;
+
+        dogs.push(dog);
+      }
+      this.dogs = dogs;
+    })
+
   }
 
   update(id: number, updateDogDto: UpdateDogDto) {
