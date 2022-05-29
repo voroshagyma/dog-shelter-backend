@@ -22,7 +22,10 @@ export class DogsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} dog`;
+    return new Promise((resolve, reject) => {
+      const dog = this.dogs.find(e => e.id === id);
+      resolve(dog);
+    });
   }
 
   /**

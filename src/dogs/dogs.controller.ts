@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
 
 @Controller('dogs')
 export class DogsController {
-  constructor(private readonly dogsService: DogsService) {}
+  constructor(private readonly dogsService: DogsService) { }
 
   @Post()
   create(@Body() createDogDto: CreateDogDto) {
@@ -18,8 +18,15 @@ export class DogsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dogsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+
+    const dog = await this.dogsService.findOne(+id);
+
+    if (dog === undefined) {
+      throw new NotFoundException();
+    }
+
+    return dog;
   }
 
   @Patch(':id')
