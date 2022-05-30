@@ -3,7 +3,7 @@ import { IsString, IsInt, IsOptional, IsISO8601 } from 'class-validator';
 export class CreateDogDto {
 
     @IsOptional()
-    @IsISO8601()
+    //@IsISO8601()
     adoptedAt: Date;
 
     @IsInt()
@@ -15,7 +15,7 @@ export class CreateDogDto {
     @IsString()
     description: string;
 
-    @IsISO8601()
+    // @IsISO8601()
     foundAt: Date;
 
     @IsString()
