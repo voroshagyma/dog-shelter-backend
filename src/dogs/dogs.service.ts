@@ -69,15 +69,11 @@ export class DogsService {
 
   update(id: number, updateDogDto: UpdateDogDto) {
 
-    const dogToUpdate = this.dogs.find(e => e.id === id);
+    let dogToUpdate = this.dogs.find(e => e.id === id);
 
     if (dogToUpdate) {
-      dogToUpdate.adoptedAt = updateDogDto.adoptedAt;
-      dogToUpdate.age = updateDogDto.age;
-      dogToUpdate.breed = updateDogDto.breed;
-      dogToUpdate.foundAt = updateDogDto.foundAt;
-      dogToUpdate.name = updateDogDto.name;
-      dogToUpdate.description = updateDogDto.description;
+      dogToUpdate = { ...dogToUpdate, ...updateDogDto };
+      this.dogs[this.dogs.findIndex(e => e.id === id)] = dogToUpdate;
     }
 
     return new Promise(resolve => resolve(dogToUpdate));
