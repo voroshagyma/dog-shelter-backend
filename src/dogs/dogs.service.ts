@@ -46,8 +46,9 @@ export class DogsService {
   private initDogs() {
     const dogs: Dog[] = [];
 
-    this.httpService.get<string[]>('https://random.dog/doggos').subscribe(e => {
-      const pics = e.data;
+    this.httpService.get<{ message: string[] }>('https://dog.ceo/api/breeds/image/random/100').subscribe(e => {
+
+      const pics = e.data.message;
 
       for (let i = 1; i <= 100; i++) {
         const dog: Dog = new Dog();
@@ -58,7 +59,7 @@ export class DogsService {
         dog.breed = faker.animal.dog();
         dog.id = i;
         dog.description = faker.lorem.sentences(4);
-        dog.picture = `https://random.dog/${pics[i]}`;
+        dog.picture = pics[i];
 
         dogs.push(dog);
       }
