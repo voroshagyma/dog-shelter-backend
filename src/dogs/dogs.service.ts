@@ -4,7 +4,6 @@ import { UpdateDogDto } from './dto/update-dog.dto';
 import { Dog } from './entities/dog.entity';
 import { faker } from "@faker-js/faker";
 import { HttpService } from '@nestjs/axios';
-import { map } from 'rxjs';
 
 @Injectable()
 export class DogsService {
@@ -54,8 +53,8 @@ export class DogsService {
         const dog: Dog = new Dog();
         dog.name = faker.name.firstName();
         dog.age = faker.datatype.number({ min: 0, max: 20 });
-        dog.adoptedAt = i % 3 === 0 ? faker.date.between("2017-01-01", "2022-05-01") : null;
         dog.foundAt = faker.date.between("2017-01-01", "2022-05-01");
+        dog.adoptedAt = i % 3 === 0 ? faker.date.future(0.5, dog.foundAt) : null;
         dog.breed = faker.animal.dog();
         dog.id = i;
         dog.description = faker.lorem.sentences(4);
